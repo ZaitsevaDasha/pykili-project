@@ -1,0 +1,325 @@
+import random
+import sys
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QApplication
+from PyQt5.QtGui import QPainter, QColor, QPen
+
+
+class Example(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+        self.flag1 = False
+        self.list = []
+        self.source = ''
+        with open('words.txt', encoding='utf-8') as f:
+            text = f.read()
+            words = text.split(',')
+            self.r_word = random.choice(words)
+            print(self.r_word)
+
+    def initUI(self):
+        letters1 = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й']
+        letters2 = ['К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф']
+        letters3 = ['Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я']
+        positions = [620, 720, 820, 920, 1020, 1120, 1220, 1320, 1420, 1520, 1620]
+        dictionary1 = dict(zip(letters1, positions))
+        dictionary2 = dict(zip(letters2, positions))
+        dictionary3 = dict(zip(letters3, positions))
+        for letter1, position1 in dictionary1.items():
+            but = QPushButton(letter1, self)    
+            but.move(position1, 650)
+            but.resize(65, 65)
+            but.clicked.connect(self.onClicked) 
+        for letter2, position2 in dictionary2.items():
+            but = QPushButton(letter2, self)    
+            but.move(position2, 750)
+            but.resize(65, 65)
+            but.clicked.connect(self.onClicked) 
+        for letter3, position3 in dictionary3.items():
+            but = QPushButton(letter3, self)    
+            but.move(position3, 850)
+            but.resize(65, 65)
+            but.clicked.connect(self.onClicked)        
+        self.setGeometry(300, 300, 250, 150)
+        self.setWindowTitle('Виселица')
+        self.show()
+
+    def onClicked(self):
+        self.source = self.sender().text().lower()
+        if self.source not in self.r_word:
+            self.flag1 = True
+            self.update()
+
+    def paintEvent(self, e):
+        if self.flag1 and not self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 1 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 2 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 3 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 4 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 5 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 6 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            self.draw_rope(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source) 
+        if self.flag1 and len(self.list) == 7 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            self.draw_rope(qp)
+            self.draw_head(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 8 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            self.draw_rope(qp)
+            self.draw_head(qp)
+            self.draw_body(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 9 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            self.draw_rope(qp)
+            self.draw_head(qp)
+            self.draw_body(qp)
+            self.draw_left_hand(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 10 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            self.draw_rope(qp)
+            self.draw_head(qp)
+            self.draw_body(qp)
+            self.draw_left_hand(qp)
+            self.draw_right_hand(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 11 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            self.draw_rope(qp)
+            self.draw_head(qp)
+            self.draw_body(qp)
+            self.draw_left_hand(qp)
+            self.draw_right_hand(qp)
+            self.draw_left_leg(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 12 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            self.draw_rope(qp)
+            self.draw_head(qp)
+            self.draw_body(qp)
+            self.draw_left_hand(qp)
+            self.draw_right_hand(qp)
+            self.draw_left_leg(qp)
+            self.draw_right_leg(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        if self.flag1 and len(self.list) == 13 and self.source not in self.list:
+            qp = QPainter()
+            qp.begin(self)
+            self.draw_gallows_column(qp)
+            self.draw_gallows_lower_part1(qp)
+            self.draw_gallows_lower_part2(qp)
+            self.draw_gallows_lower_part3(qp)
+            self.draw_gallows_upper_part(qp)
+            self.draw_gallows_upper_part2(qp)
+            self.draw_rope(qp)
+            self.draw_head(qp)
+            self.draw_body(qp)
+            self.draw_left_hand(qp)
+            self.draw_right_hand(qp)
+            self.draw_left_leg(qp)
+            self.draw_right_leg(qp)
+            self.draw_face(qp)
+            qp.end()
+            if self.source not in self.r_word:
+                self.list.append(self.source)
+        
+    def draw_gallows_column(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(350, 90, 350, 610)
+
+    def draw_gallows_lower_part1(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(180, 610, 520, 610)
+        qp.drawLine(350, 90, 350, 610)
+
+    def draw_gallows_lower_part2(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)        
+        qp.drawLine(350, 550, 520, 610)
+
+    def draw_gallows_lower_part3(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)        
+        qp.drawLine(180, 610, 350, 550)
+ 
+    def draw_gallows_upper_part(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(350, 90, 600, 90)
+
+    def draw_gallows_upper_part2(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(420, 90, 350, 160)
+
+    def draw_rope(self, qp):
+        pen = QPen(Qt.black, 4, Qt.DashDotDotLine)
+        qp.setPen(pen)
+        pen.setStyle(Qt.DashDotDotLine)
+        qp.drawLine(600, 90, 600, 200) 
+
+    def draw_head(self, qp):  
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawEllipse(570, 200, 60, 60)
+
+    def draw_body(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(600, 260, 600, 370)
+
+    def draw_left_hand(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(600, 265, 560, 350)
+
+    def draw_right_hand(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(600, 265, 640, 350)
+
+    def draw_left_leg(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(600, 370, 560, 470)
+
+    def draw_right_leg(self, qp):
+        pen = QPen(Qt.black, 4, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(600, 370, 640, 470)
+        
+    def draw_face(self, qp):
+        pen = QPen(Qt.black, 2, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawLine(588, 217, 595, 225)
+        qp.drawLine(588, 225, 595, 217)
+        qp.drawLine(612, 225, 605, 217)
+        qp.drawLine(612, 217, 605, 225)
+        qp.drawLine(590, 240, 610, 240)
+    
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec_())
